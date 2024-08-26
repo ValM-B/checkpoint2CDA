@@ -11,12 +11,15 @@ class CountriesInput {
 
     @Field()
     emoji: string;
+
+    @Field()
+    continent: string;
 }
 
 @Resolver()
 export class CountriesResolver {
     @Query(() => [Countries])
-    async gestAllCountries() {
+    async getAllCountries() {
         return await Countries.find();
     }
 
@@ -25,6 +28,13 @@ export class CountriesResolver {
         @Arg("code") code: string
     ) {
         return await Countries.findOne({ where: { code } });
+    }
+
+    @Query(() => [Countries])
+    async getCountriesByContinent(
+        @Arg("continent") continent: string
+    ) {
+        return await Countries.find({ where: { continent } });
     }
 
     @Mutation(() => Countries)
